@@ -6,6 +6,9 @@ Number.prototype.format = function (precision = 0, useCount = false) {
   let number = this;
   number = Math.floor(number * 10 ** precision) / 10 ** precision;
   if (useCount) {
+    if (number > 1000000000) {
+      return `${(number / 1000000000).toFixed(1)}B`;
+    }
     if (number > 1000000) {
       return `${(number / 1000000).toFixed(1)}M`;
     }
@@ -66,7 +69,7 @@ var study = new Vue({
       window.location.reload();
     },
     cheat: function () {
-      this.count += 1000000;
+      this.count += 100000000000;
     },
     click: function () {
       !bgmStart && setTimeout(() => {
