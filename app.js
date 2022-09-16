@@ -2,6 +2,20 @@ Number.prototype.round = function (n) {
   const d = Math.pow(10, n);
   return Math.floor((this + Number.EPSILON) * d) / d;
 };
+Number.prototype.format = function (precision = 0, useCount = false) {
+  let number = this;
+  number = Math.floor(number * 10 ** precision) / 10 ** precision;
+  if (useCount) {
+    if (number > 1000000) {
+      return `${(number / 1000000).toFixed(1)}M`;
+    }
+    else if (number > 1000) {
+      return `${(number / 1000).toFixed(1)}K`;
+    }
+  }
+  return `${number}`;
+
+};
 function Sound(src, volume = 0.5, replay = false, loop = false, autoplay = false) {
   this.sound = document.createElement("audio");
   this.sound.volume = volume;
@@ -113,7 +127,6 @@ var study = new Vue({
   mounted: function () {
     let save = localStorage.getItem("save");
     if (save) {
-      console.log(save);
       Object.assign(this.$data, JSON.parse(save));
       if (this.count >= 10) {
         this.showUpgrade = true;
@@ -151,7 +164,6 @@ var study = new Vue({
           equipments: this.equipments,
           helpers: this.helpers,
         };
-        console.log(save);
         localStorage.setItem("save", JSON.stringify(save));
       },
       immediate: false
@@ -159,4 +171,4 @@ var study = new Vue({
   }
 
 
-});
+});;;;;;

@@ -15,7 +15,7 @@
     <div id="vue-app">
       <div id="Upper">
         <div v-if="count>target">
-          <p>你有{{count.toFixed()}}只鼠！</p>
+          <p>你有{{count.format()}}只鼠！</p>
           <p>
             哇！你成功了😻
             <button id="Restart" class="" role="button" @click="restart">
@@ -24,7 +24,7 @@
           </p>
         </div>
         <div v-else>
-          <p>你有{{count.toFixed()}}只鼠</p>
+          <p>你有{{count.format()}}只鼠</p>
           <p>目标是{{target}}只鼠</p>
           <progress :value="count" :max="target"></progress>
         </div>
@@ -39,7 +39,7 @@
         <div v-if="showUpgrade" class="column">
           <h3>训练</h3>
           <p v-if="showUpgrade">
-            抓鼠能力：{{addition>50?addition.toFixed(0):addition.toFixed(1)}}
+            抓鼠能力：{{addition>50?addition.format(0,true):addition.format(1,true)}}
           </p>
 
           <div
@@ -54,12 +54,13 @@
               @click="buyUpgrade(u)"
             >
               {{u.icon}}</button
-            >lv. {{u.level}} {{u.name}} （{{u.price}}🐇 {{u.base}}💪）
+            >lv. {{u.level}} {{u.name}} （{{u.price}}🐇
+            {{u.base.format(1,true)}}💪）
           </div>
         </div>
         <div v-if="showEquipment" class="column">
           <h3>装备</h3>
-          <p v-if="showEquipment">抓鼠倍率：{{bonus.toFixed(2)}}</p>
+          <p v-if="showEquipment">抓鼠倍率：{{bonus.format(2)}}</p>
           <span class="equipment" v-for="u in equipments" v-if="u.bought"
             >{{u.icon}}</span
           >
@@ -76,12 +77,12 @@
             >
               {{u.icon}}
             </button>
-            {{u.name}} （{{u.price}}🐇 {{u.base}}*️⃣）
+            {{u.name}} （{{u.price}}🐇 {{u.base.format(1,true)}}*️⃣）
           </div>
         </div>
         <div v-if="showHelper" class="column">
           <h3>助手</h3>
-          <p v-if="showHelper">产鼠频率：{{auto.toFixed(1)}}/s</p>
+          <p v-if="showHelper">产鼠频率：{{auto.format(1)}}/s</p>
           <span class="helper" v-for="u in helpers" v-if="u.bought"
             >{{u.icon}}</span
           >
@@ -98,7 +99,7 @@
             >
               {{u.icon}}
             </button>
-            {{u.name}} （{{u.price}}🐇 {{u.base}}⚙️）
+            {{u.name}} （{{u.price}}🐇 {{u.base.format(1,true)}}⚙️）
           </div>
         </div>
       </div>
