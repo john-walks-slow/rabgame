@@ -37,7 +37,7 @@ function Sound(src, volume = 0.5, replay = false, loop = false, autoplay = false
     this.sound.currentTime = 0;
   };
 }
-var audioBgm = new Sound('bgm.mp3', 0.5, false, true, true);
+// var audioBgm = new Sound('bgm.mp3', 0.5, false, true, true);
 var audioClick = new Sound('bubble.mp3', 0.8, true);
 var audioM = new Sound('meow.mp3', 0.2);
 var audioSweet = new Sound('meow2.mp3', 0.2);
