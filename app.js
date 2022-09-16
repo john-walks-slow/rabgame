@@ -47,7 +47,7 @@ var bgmStart = false;
 var study = new Vue({
   el: "#vue-app",
   data: {
-    dev: true,
+    dev: false,
     target: 1000000000,
     count: 1,
     addition: 1,
