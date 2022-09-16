@@ -16,12 +16,7 @@
       <div id="Upper">
         <div v-if="count>target">
           <p>你有{{count.format()}}只鼠！</p>
-          <p>
-            哇！你成功了😻
-            <button id="Restart" class="" role="button" @click="restart">
-              {{"~再玩一次~"}}
-            </button>
-          </p>
+          <p>哇！你成功了😻</p>
         </div>
         <div v-else>
           <p>你有{{count.format()}}只鼠</p>
@@ -31,6 +26,29 @@
         <button id="Click" class="" role="button" @click="click">
           {{"🐭"}}
         </button>
+        <div id="Top">
+          <button
+            v-if="count>target || dev"
+            id="Restart"
+            class=""
+            role="button"
+            @click="restart"
+          >
+            {{"重新开始"}}
+          </button>
+          <button
+            v-if="count>target || dev"
+            id="Restart"
+            class=""
+            role="button"
+            @click="cheat"
+          >
+            {{"作弊"}}
+          </button>
+          <button id="Full" class="" role="button" @click="fullScreen">
+            {{"全屏"}}
+          </button>
+        </div>
 
         <hr />
       </div>
@@ -54,7 +72,7 @@
               @click="buyUpgrade(u)"
             >
               {{u.icon}}</button
-            >lv. {{u.level}} {{u.name}} （{{u.price}}🐇
+            >lv. {{u.level}} {{u.name}} （{{u.price.format(0,true)}}🐇
             {{u.base.format(1,true)}}💪）
           </div>
         </div>
@@ -77,7 +95,8 @@
             >
               {{u.icon}}
             </button>
-            {{u.name}} （{{u.price}}🐇 {{u.base.format(1,true)}}*️⃣）
+            {{u.name}} （{{u.price.format(0,true)}}🐇
+            {{u.base.format(1,true)}}*️⃣）
           </div>
         </div>
         <div v-if="showHelper" class="column">
@@ -99,7 +118,8 @@
             >
               {{u.icon}}
             </button>
-            {{u.name}} （{{u.price}}🐇 {{u.base.format(1,true)}}⚙️）
+            {{u.name}} （{{u.price.format(0,true)}}🐇
+            {{u.base.format(1,true)}}⚙️）
           </div>
         </div>
       </div>
@@ -113,6 +133,8 @@
         padding: 0;
         margin: 0;
         font-family: sans-serif, emoji !important;
+        box-sizing: border-box;
+        user-select: none;
       }
       @font-face {
         font-family: emoji;
@@ -132,12 +154,12 @@
       }
 
       body {
-        padding: 30px 23px;
+        /* padding: 30px 23px; */
       }
       .column {
         display: inline-block;
         vertical-align: top;
-        padding: 0.8vw;
+        margin: 2vw;
         width: min(380px, 97%);
       }
       #vue-app {
@@ -264,7 +286,7 @@
       }
       #Upper {
         position: fixed;
-        padding: 1.6em 1.6em 0em;
+        padding: 1.6em 3em 0em;
         left: 0;
         top: 0;
         right: 0;
@@ -285,13 +307,28 @@
       ::-webkit-scrollbar-thumb {
         height: 10px !important;
       }
+      #Top {
+        position: fixed;
+        right: 15px;
+        top: 15px;
+        font-size: 0.9em;
+      }
       #Restart {
         display: inline;
         font-size: unset;
         background: none;
         border: none;
         cursor: pointer;
-        color: blue;
+        color: grey;
+        margin-right: 10px;
+      }
+      #Full {
+        display: inline;
+        font-size: unset;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: grey;
       }
     </style>
   </body>

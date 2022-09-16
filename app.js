@@ -47,7 +47,8 @@ var bgmStart = false;
 var study = new Vue({
   el: "#vue-app",
   data: {
-    target: 10000000000,
+    dev: true,
+    target: 1000000000,
     count: 1,
     addition: 1,
     bonus: 1,
@@ -64,6 +65,9 @@ var study = new Vue({
       localStorage.clear();
       window.location.reload();
     },
+    cheat: function () {
+      this.count += 1000000;
+    },
     click: function () {
       !bgmStart && setTimeout(() => {
         audioBgm.play();
@@ -74,7 +78,13 @@ var study = new Vue({
       this.count += this.addition * this.bonus;
     },
     fullScreen: function () {
-      document.documentElement.requestFullscreen();
+      if (document.fullscreenElement) {
+
+        document.exitFullscreen();
+      } else {
+        document.documentElement.requestFullscreen();
+      }
+
 
     },
     buyUpgrade: function (upgrade) {
