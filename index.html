@@ -1,231 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vue.js</title>
 
-  <title>Vue.js</title>
+    <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  </head>
 
-  <!-- Vue.js -->
-  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <body>
+    <div id="vue-app">
+      <div id="Upper">
+        <div v-if="count>target">
+          <p>你有{{count.toFixed()}}只鼠！</p>
+          <p>
+            哇！你成功了😻
+            <button id="Restart" class="" role="button" @click="restart">
+              {{"~再玩一次~"}}
+            </button>
+          </p>
+        </div>
+        <div v-else>
+          <p>你有{{count.toFixed()}}只鼠</p>
+          <p>目标是{{target}}只鼠</p>
+          <progress :value="count" :max="target"></progress>
+        </div>
+        <button id="Click" class="" role="button" @click="click">
+          {{"🐹"}}
+        </button>
 
-</head>
+        <hr />
+      </div>
 
-<body>
-  <div id="vue-app">
-    <div id="Upper">
-         <p>你有{{count.toFixed()}}只兔</p>
-             <p>目标是{{target}}只兔子</p>
-             <progress :value="count" :max="target"></progress>
-         <button id="Click" class="" role="button" @click="click">{{"🐇"}}</button>
-         <hr>
+      <div id="Panel">
+        <div v-if="showUpgrade" class="column">
+          <h3>训练</h3>
+          <p v-if="showUpgrade">
+            抓鼠能力：{{addition>50?addition.toFixed(0):addition.toFixed(1)}}
+          </p>
+
+          <div
+            v-if="count>u.price/2||u.level>0"
+            :class="{disable:count<u.price}"
+            class="upgradeItem"
+            v-for="u in upgrades"
+          >
+            <button
+              class="upgradeButton mbutton"
+              :disabled="count<u.price"
+              @click="buyUpgrade(u)"
+            >
+              {{u.icon}}</button
+            >lv. {{u.level}} {{u.name}} （{{u.price}}🐇 {{u.base}}💪）
+          </div>
+        </div>
+        <div v-if="showEquipment" class="column">
+          <h3>装备</h3>
+          <p v-if="showEquipment">抓鼠倍率：{{bonus.toFixed(2)}}</p>
+          <span class="equipment" v-for="u in equipments" v-if="u.bought"
+            >{{u.icon}}</span
+          >
+          <div
+            v-if="count>u.price/2&&u.bought==undefined"
+            :class="{disable:count<u.price}"
+            class="bonusItem"
+            v-for="u in equipments"
+          >
+            <button
+              class="equipmentButton mbutton"
+              :disabled="count<u.price"
+              @click="buyEquipment(u)"
+            >
+              {{u.icon}}
+            </button>
+            {{u.name}} （{{u.price}}🐇 {{u.base}}*️⃣）
+          </div>
+        </div>
+        <div v-if="showHelper" class="column">
+          <h3>助手</h3>
+          <p v-if="showHelper">产鼠频率：{{auto.toFixed(1)}}/s</p>
+          <span class="helper" v-for="u in helpers" v-if="u.bought"
+            >{{u.icon}}</span
+          >
+          <div
+            v-if="count>u.price/2&&u.bought==undefined"
+            :class="{disable:count<u.price}"
+            class="bonusItem"
+            v-for="u in helpers"
+          >
+            <button
+              class="helperButton mbutton"
+              :disabled="count<u.price"
+              @click="buyHelper(u)"
+            >
+              {{u.icon}}
+            </button>
+            {{u.name}} （{{u.price}}🐇 {{u.base}}⚙️）
+          </div>
+        </div>
+      </div>
     </div>
- 
-    <div id="Panel">
-      <div v-if="showUpgrade">
-        <h3>训练</h3>
-        <p v-if="showUpgrade">抓兔能力：{{addition.toFixed(1)}}</p>
 
-        <div v-if="count>u.price/1.5||u.level>0" :class="{disable:count<u.price}" class="upgradeItem" v-for="u in upgrades">
-          <button class="upgradeButton mbutton" :disabled="count<u.price" @click="buyUpgrade(u)">{{u.icon}}</button>lv. {{u.level}}
-          {{u.name}} （{{u.price}}🐇 {{u.addition}}💪）
-        </div>
+    <!-- Project -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+    <style type="text/css">
+      * {
+        padding: 0;
+        margin: 0;
+        font-family: sans-serif, emoji !important;
+      }
+      @font-face {
+        font-family: emoji;
+        src: url("/res/NotoColorEmoji-Regular.ttf");
+      }
+      input,
+      textarea,
+      button,
+      select,
+      a {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      }
 
-      </div>
-      <div v-if="showEquipment">
-        <hr>
-        <h3>装备</h3>
-        <p v-if="showEquipment">抓兔倍率：{{bonus.toFixed(1)}}</p>
-        <span class="equipment" v-for="u in equipments" v-if="u.bought">{{u.icon}}</span>
-        <div v-if="count>u.price/1.5&&u.bought==undefined" :class="{disable:count<u.price}" class="bonusItem" v-for="u in equipments">
-          <button class="equipmentButton mbutton" :disabled="count<u.price" @click="buyEquipment(u)">{{u.icon}}</button>
-          {{u.name}} （{{u.price}}🐇 {{u.addition}}*️⃣）
-        </div>
-      </div>
-      <div v-if="showHelper">
-        <hr>
-        <h3>助手</h3>
-        <p v-if="showHelper">产兔频率：{{auto.toFixed(1)}}/s</p>
-        <span class="helper" v-for="u in helpers" v-if="u.bought">{{u.icon}}</span>
-        <div v-if="count>u.price/1.5&&u.bought==undefined" :class="{disable:count<u.price}" class="bonusItem" v-for="u in helpers">
-          <button class="helperButton mbutton" :disabled="count<u.price" @click="buyHelper(u)">{{u.icon}}</button>
-          {{u.name}} （{{u.price}}🐇 {{u.addition}}⚙️）
-        </div>
+      body {
+        padding: 30px 23px;
+      }
+      .column {
+        display: inline-block;
+        vertical-align: top;
+        padding: 0.8vw;
+        width: min(380px, 97%);
+      }
+      #vue-app {
+      }
 
-      </div>
-    </div>
+      button {
+        font-size: 25px;
+      }
 
-  </div>
+      progress {
+        display: block;
+      }
 
-  <!-- Project -->
-  <script src="data.js"></script>
-  <script src="app.js"></script>
-  <style type="text/css">
-    * {
-      padding: 0;
-      margin: 0;
-    }
+      .mbutton {
+        align-self: center;
+        background-color: #ffffff;
+        background-image: none;
+        background-position: 0 90%;
+        background-repeat: repeat no-repeat;
+        background-size: 4px 3px;
+        border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+        border-style: solid;
+        border-width: 2px;
+        box-sizing: border-box;
+        color: #41403e;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Neucha, sans-serif;
+        font-size: 2rem;
+        line-height: 23px;
+        outline: none;
+        padding: 0.55rem;
+        text-decoration: none;
+        transition: all 205ms ease-in-out, font-size 140ms;
+        border-bottom-left-radius: 15px 255px;
+        border-bottom-right-radius: 225px 15px;
+        border-top-left-radius: 255px 15px;
+        border-top-right-radius: 15px 225px;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+      }
 
-    input,
-    textarea,
-    button,
-    select,
-    a {
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    }
+      .upgradeButton:hover {
+        background-color: lightyellow;
+      }
 
-    body {
-      padding: 30px 23px;
+      .upgradeButton:active {
+        transform: scale3d(1.04, 1.1, 1.3);
+        background-color: yellow;
+      }
 
-    }
+      .equipmentButton,
+      .helperButton {
+        background: #bcb;
+        position: relative;
+        top: 7px;
+        transform: rotate(-2deg);
+        font-size: 2.6em;
+        border: solid 0px;
+        margin: 1px 11px 1px 0px;
+      }
+      .helperButton {
+        background: #cbc;
+        transform: rotate(-2deg);
+      }
+      .equipment,
+      .helper {
+        display: inline-block;
+        margin: 7px 3px;
+        font-size: 2.6em;
+        transition: all 300ms;
+        vertical-align: bottom;
+        border-radius: 30px;
+        cursor: pointer;
+        -webkit-user-select: none;
+      }
 
-    #vue-app {}
+      .equipment:hover,
+      .helper:hover {
+        transform: scale(1.2);
+      }
 
-    button {
-      font-size: 25px;
-    }
+      #Click:active {
+        transform: translateY(1px) scale3d(1.1, 0.95, 1);
+      }
 
-progress{
-  display: block;
-}
+      .mbutton:focus {
+        outline: 0 !important;
+      }
 
+      .mbutton:active {
+      }
 
-    .mbutton {
-      align-self: center;
-      background-color: #ffffff;
-      background-image: none;
-      background-position: 0 90%;
-      background-repeat: repeat no-repeat;
-      background-size: 4px 3px;
-      border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
-      border-style: solid;
-      border-width: 2px;
-      box-sizing: border-box;
-      color: #41403e;
-      cursor: pointer;
-      display: inline-block;
-      font-family: Neucha, sans-serif;
-      font-size: 2rem;
-      line-height: 23px;
-      outline: none;
-      padding: .55rem;
-      text-decoration: none;
-      transition: all 205ms ease-in-out, font-size 140ms;
-      border-bottom-left-radius: 15px 255px;
-      border-bottom-right-radius: 225px 15px;
-      border-top-left-radius: 255px 15px;
-      border-top-right-radius: 15px 225px;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
+      #Click {
+        transition: all 70ms;
+        border: none;
+        background: none;
+        font-size: 50px;
+        margin: 5px 0px 0px;
+      }
 
+      hr {
+        margin: 10px 0px;
 
-    }
+        opacity: 0;
+      }
 
-    .upgradeButton:hover {
-            background-color: lightyellow;
+      .upgradeItem {
+        margin: 15px 9px;
+        vertical-align: middle;
+      }
+      .bonusItem {
+        margin: 10px 10px 20px;
+        vertical-align: middle;
+      }
 
-    }
+      .disable {
+        color: grey;
+      }
 
-    .upgradeButton:active {
-      transform: scale3d(1.04, 1.1, 1.3);
-      background-color: yellow
-    }
-
-    .equipmentButton, .helperButton {
-      background: #bcb;
-      position: relative;
-      top:7px;
-      transform: rotate(-2deg);
-      font-size: 2.6em;
-      border: solid 0px;
-      margin: 1px 11px 1px 0px;
-
-    }
-.helperButton{
-  background: #cbc;
-      transform: rotate(-2deg);
-}
-    .equipment, .helper {
-      display: inline-block;
-      margin: 7px 3px;
-      font-size: 2.6em;
-      transition: all 300ms;
-      vertical-align: bottom;
-      border-radius: 30px;
-    }
-
-    .equipment:hover, .helper:hover {
-      transform: scale(1.2)
-    }
-
-    #Click:active {
-
-      transform: translateY(1px) scale3d(1.1, 0.95, 1);
-    }
-
-    .mbutton:focus {
-      outline: 0 !important;
-
-    }
-
-    .mbutton:active {}
-
-    #Click {
-      transition: all 70ms;
-      border: none;
-      background: none;
-      font-size: 50px;
-      margin: 5px 0px 0px;
-    }
-
-    hr {
-      margin: 10px 0px;
-      
-      opacity: 0;
-    }
-
-    .upgradeItem {
-      margin: 15px 9px;
-      vertical-align: middle;
-    }
-    .bonusItem{
-      margin: 10px 10px 20px;
-      vertical-align: middle;
-    }
-
-    .disable {
-      color: grey;
-    }
-
-    .upgradeButton {
-      margin-right: 11px;
-    }
-#Upper{
-  position: fixed;
-  padding:1.6em 1.6em 0em ;
-  left:0;
-  top:0;
-  right:0;
-  background:white;
-  border-bottom:solid 1px;
-  z-index: 999;
-}
-    #Panel {
-      position: absolute;
-      box-shadow: black 0px 0px 0px;
-      top:12em;
-    }
-    ::-webkit-scrollbar{
-      
-      
-    }
-    ::-webkit-scrollbar-thumb{
-      height:10px !important;
-    }
-  </style>
-</body>
-
+      .upgradeButton {
+        margin-right: 11px;
+      }
+      #Upper {
+        position: fixed;
+        padding: 1.6em 1.6em 0em;
+        left: 0;
+        top: 0;
+        right: 0;
+        background: white;
+        border-bottom: solid 1px;
+        z-index: 999;
+      }
+      #Panel {
+        position: absolute;
+        box-shadow: black 0px 0px 0px;
+        top: 12em;
+        text-align: left;
+        padding: 0.8vw;
+        width: 100%;
+      }
+      ::-webkit-scrollbar {
+      }
+      ::-webkit-scrollbar-thumb {
+        height: 10px !important;
+      }
+      #Restart {
+        display: inline;
+        font-size: unset;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: blue;
+      }
+    </style>
+  </body>
 </html>
