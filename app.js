@@ -44,8 +44,8 @@ function Sound(src, volume = 0.5, replay = false, loop = false, autoplay = false
 var audioClick = new Sound('bubble.mp3', 0.8, true);
 var audioM = new Sound('meow.mp3', 0.2);
 var audioSweet = new Sound('meow2.mp3', 0.2);
-var audioUnlock = new Sound('unlock.wav');
-var audioCheer = new Sound('cheer.wav');
+var audioUnlock = new Sound('unlock.wav', 0.3);
+var audioCheer = new Sound('cheer.wav', 0.3);
 var bgmStart = false;
 var study = new Vue({
   el: "#vue-app",
