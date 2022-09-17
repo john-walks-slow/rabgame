@@ -69,7 +69,7 @@ var study = new Vue({
       window.location.reload();
     },
     cheat: function () {
-      this.count += 100000000000;
+      this.count *= 1.2;
     },
     click: function () {
       !bgmStart && setTimeout(() => {
