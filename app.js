@@ -59,7 +59,7 @@ var study = new Vue({
     dev: false,
     target: 1000000000,
     count: 1,
-    addition: 0,
+    addition: 1,
     bonus: 1,
     auto: 0,
     era: 1,
@@ -78,6 +78,7 @@ var study = new Vue({
         JSON.stringify({
           era: this.era + 1,
           target: 1000000000 * 10 ** (Math.ceil(this.era / 2) - 1),
+          addition: this.era + 1,
         })
       )
       window.location.reload()
@@ -93,7 +94,7 @@ var study = new Vue({
         }, 50)
 
       audioClick.play()
-      this.count += (this.era + this.addition) * this.bonus
+      this.count += this.addition * this.bonus
     },
     fullScreen: function () {
       if (document.fullscreenElement) {
