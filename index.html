@@ -1,358 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>😻🐭</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Vue.js -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-  </head>
+  <title>😻🐭</title>
 
-  <body>
-    <div id="vue-app">
-      <div id="Upper">
-        <div v-if="count>target">
-          <p>你有{{count.format()}}只鼠！</p>
-          <p>哇！你成功了😻</p>
-        </div>
-        <div v-else>
-          <p>你有{{count.format()}}只鼠</p>
-          <p>目标是{{target}}只鼠</p>
-          <progress :value="count" :max="target"></progress>
-        </div>
-        <button id="Click" class="" role="button" @click="click">
-          {{"🐭"}}
+  <!-- Vue.js -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <!-- <script src="https://unpkg.com/vue-i18n@8"></script> -->
+</head>
+
+<body>
+  <div id="vue-app">
+    <div id="Upper">
+      <div v-if="count>target">
+        <p>你有{{count.format()}}只鼠！</p>
+        <p>哇！你成功了😻</p>
+      </div>
+      <div v-else>
+        <p>你有{{count.format()}}只鼠</p>
+        <p>目标是{{target}}只鼠</p>
+        <progress :value="count" :max="target"></progress>
+      </div>
+      <button id="Click" class="" role="button" @click="click">
+        {{"🐭"}}
+      </button>
+      <div id="Top">
+        <button v-if="count>target || :dev" id="Restart" class="" role="button" @click="restart">
+          {{"周目" + (era+1)}}
         </button>
-        <div id="Top">
-          <button
-            v-if="count>target || dev"
-            id="Restart"
-            class=""
-            role="button"
-            @click="restart"
-          >
-            {{"重新开始"}}
-          </button>
-          <button
-            v-if="count>=20000000000 || dev"
-            id="Restart"
-            class=""
-            role="button"
-            @click="cheat"
-          >
-            {{"作弊"}}
-          </button>
-          <button id="Full" class="" role="button" @click="fullScreen">
-            {{"全屏"}}
-          </button>
-        </div>
-
-        <hr />
+        <span v-else-if="era>1" id="Era">
+          全局倍率: {{era}}
+        </span>
+        <button v-if="count>=20000000000 || dev" id="Restart" class="" role="button" @click="cheat">
+          {{"作弊"}}
+        </button>
+        <button id="Full" class="" role="button" @click="fullScreen">
+          {{"全屏"}}
+        </button>
       </div>
 
-      <div id="Panel">
-        <div v-if="showUpgrade" class="column">
-          <h3>训练</h3>
-          <p v-if="showUpgrade">
-            抓鼠能力：{{addition>50?addition.format(0,true):addition.format(1,true)}}
-          </p>
+      <hr />
+    </div>
 
-          <div
-            v-if="count>u.price/2||u.mark||u.level>0"
-            :class="{disable:count<u.price}"
-            class="upgradeItem"
-            v-for="u in upgrades"
-          >
-            {{(function(){u.mark=true;return ""})()}}
-            <button
-              class="upgradeButton mbutton"
-              :disabled="count<u.price"
-              @click="buyUpgrade(u)"
-            >
-              {{u.icon}}</button
-            >lv. {{u.level}} {{u.name}} （{{u.price.format(0,true)}}🐇
-            {{u.base.format(1,true)}}💪）
-          </div>
+    <div id="Panel">
+      <div v-if="showUpgrade" class="column">
+        <h3>训练</h3>
+        <p v-if="showUpgrade">
+          抓鼠能力：{{addition>50?addition.format(0,true):addition.format(1,true)}}
+        </p>
+
+        <div v-if="count>u.price/1.85||u.mark||u.level>0" :class="{disable:count<u.price}" class="upgradeItem" v-for="u in upgrades">
+          {{(function(){u.mark=true;return ""})()}}
+          <button class="upgradeButton mbutton" :disabled="count<u.price" @click="buyUpgrade(u)">
+            {{u.icon}}</button>lv. {{u.level}} {{u.name}} （{{u.price.format(0,true)}}🐭
+          {{u.base.format(1,true)}}💪）
         </div>
-        <div v-if="showEquipment" class="column">
-          <h3>装备</h3>
-          <p v-if="showEquipment">抓鼠倍率：{{bonus.format(2)}}</p>
-          <span class="equipment" v-for="u in equipments" v-if="u.bought"
-            >{{u.icon}}</span
-          >
-          <div
-            v-if="(count>u.price/2||u.mark)&&u.bought==undefined"
-            :class="{disable:count<u.price}"
-            class="bonusItem"
-            v-for="u in equipments"
-          >
-            {{(function(){u.mark=true;return ""})()}}
+      </div>
+      <div v-if="showEquipment" class="column">
+        <h3>装备</h3>
+        <p v-if="showEquipment">抓鼠倍率：{{bonus.format(2)}}</p>
+        <span class="equipment" v-for="u in equipments" v-if="u.bought">{{u.icon}}</span>
+        <div v-if="(count>u.price/1.85||u.mark)&&u.bought==undefined" :class="{disable:count<u.price}" class="bonusItem" v-for="u in equipments">
+          {{(function(){u.mark=true;return ""})()}}
 
-            <button
-              class="equipmentButton mbutton"
-              :disabled="count<u.price"
-              @click="buyEquipment(u)"
-            >
-              {{u.icon}}
-            </button>
-            {{u.name}} （{{u.price.format(0,true)}}🐇
-            {{u.base.format(2,true)}}*️⃣）
-          </div>
+          <button class="equipmentButton mbutton" :disabled="count<u.price" @click="buyEquipment(u)">
+            {{u.icon}}
+          </button>
+          {{u.name}} （{{u.price.format(0,true)}}🐭
+          {{u.base.format(2,true)}}*️⃣）
         </div>
-        <div v-if="showHelper" class="column">
-          <h3>助手</h3>
-          <p v-if="showHelper">产鼠频率：{{auto.format(1)}}/s</p>
-          <span class="helper" v-for="u in helpers" v-if="u.bought"
-            >{{u.icon}}</span
-          >
-          <div
-            v-if="(count>u.price/2||u.mark)&&u.bought==undefined"
-            :class="{disable:count<u.price}"
-            class="bonusItem"
-            v-for="u in helpers"
-          >
-            {{(function(){u.mark=true;return ""})()}}
+      </div>
+      <div v-if="showHelper" class="column">
+        <h3>助手</h3>
+        <p v-if="showHelper">产鼠频率：{{auto.format(1)}}/s</p>
+        <span class="helper" v-for="u in helpers" v-if="u.bought">{{u.icon}}</span>
+        <div v-if="(count>u.price/1.85||u.mark)&&u.bought==undefined" :class="{disable:count<u.price}" class="bonusItem" v-for="u in helpers">
+          {{(function(){u.mark=true;return ""})()}}
 
-            <button
-              class="helperButton mbutton"
-              :disabled="count<u.price"
-              @click="buyHelper(u)"
-            >
-              {{u.icon}}
-            </button>
-            {{u.name}} （{{u.price.format(0,true)}}🐇
-            {{u.base.format(1,true)}}⚙️）
-          </div>
+          <button class="helperButton mbutton" :disabled="count<u.price" @click="buyHelper(u)">
+            {{u.icon}}
+          </button>
+          {{u.name}} （{{u.price.format(0,true)}}🐭
+          {{u.base.format(1,true)}}⚙️）
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Project -->
-    <script src="data.js"></script>
-    <script src="app.js"></script>
-    <style type="text/css">
-      * {
-        padding: 0;
-        margin: 0;
-        font-family: sans-serif, emoji !important;
-        box-sizing: border-box;
-        user-select: none;
-      }
-      @font-face {
-        font-family: emoji;
-        src: url("/res/NotoColorEmoji-Regular.ttf");
-      }
-      @font-face {
-        font-family: "color-emoji";
-        src: local("Noto Color Emoji"), local("Apple Color Emoji"),
-          local("Segoe UI Emoji"), local("Segoe UI Symbol");
-      }
-      input,
-      textarea,
-      button,
-      select,
-      a {
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-      }
+  <!-- Project -->
+  <!-- <script src="i18n.js"></script> -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <style type="text/css">
+    * {
+      padding: 0;
+      margin: 0;
+      font-family: sans-serif, emoji !important;
+      box-sizing: border-box;
+      user-select: none;
+    }
 
-      body {
-        /* padding: 30px 23px; */
-      }
+    @font-face {
+      font-family: emoji;
+      src: url("/res/NotoColorEmoji-Regular.ttf");
+    }
 
+    @font-face {
+      font-family: "color-emoji";
+      src: local("Noto Color Emoji"), local("Apple Color Emoji"),
+        local("Segoe UI Emoji"), local("Segoe UI Symbol");
+    }
+
+    input,
+    textarea,
+    button,
+    select,
+    a {
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+    body {
+      /* padding: 30px 23px; */
+    }
+
+    .column {
+      display: inline-block;
+      vertical-align: top;
+      padding: calc(1vw + 4px) 0 calc(2vw + 4px) calc(2vw + 4px);
+      width: 97%;
+    }
+
+    @media only screen and (min-width: 768px) {
       .column {
-        display: inline-block;
-        vertical-align: top;
-        padding: calc(1vw + 4px) 0 calc(2vw + 4px) calc(2vw + 4px);
-        width: 97%;
+        width: 49%;
       }
-      @media only screen and (min-width: 768px) {
-        .column {
-          width: 49%;
-        }
-      }
-      @media only screen and (min-width: 1024px) {
-        .column {
-          width: 33%;
-        }
-      }
-      #vue-app {
-      }
+    }
 
-      button {
-        font-size: 25px;
+    @media only screen and (min-width: 1024px) {
+      .column {
+        width: 33%;
       }
+    }
 
-      progress {
-        display: block;
-      }
+    #vue-app {}
 
-      .mbutton {
-        align-self: center;
-        background-color: #f5f5f5;
-        background-image: none;
-        background-position: 0 90%;
-        background-repeat: repeat no-repeat;
-        background-size: 4px 3px;
-        border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
-        border-style: solid;
-        border-width: 2px;
-        box-sizing: border-box;
-        color: #41403e;
-        cursor: pointer;
-        display: inline-block;
-        font-family: Neucha, sans-serif;
-        font-size: 2rem;
-        line-height: 23px;
-        outline: none;
-        padding: 0.55rem;
-        text-decoration: none;
-        transition: all 205ms ease-in-out, font-size 140ms;
-        border-bottom-left-radius: 15px 255px;
-        border-bottom-right-radius: 225px 15px;
-        border-top-left-radius: 255px 15px;
-        border-top-right-radius: 15px 225px;
-        user-select: none;
-        -webkit-user-select: none;
-        touch-action: manipulation;
-      }
+    button {
+      font-size: 25px;
+    }
 
-      .upgradeButton:hover {
-        background-color: lightyellow;
-      }
+    progress {
+      display: block;
+    }
 
-      .upgradeButton:active {
-        transform: scale3d(1.04, 1.1, 1.3);
-        background-color: yellow;
-      }
+    .mbutton {
+      align-self: center;
+      background-color: #f5f5f5;
+      background-image: none;
+      background-position: 0 90%;
+      background-repeat: repeat no-repeat;
+      background-size: 4px 3px;
+      border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+      border-style: solid;
+      border-width: 2px;
+      box-sizing: border-box;
+      color: #41403e;
+      cursor: pointer;
+      display: inline-block;
+      font-family: Neucha, sans-serif;
+      font-size: 2rem;
+      line-height: 23px;
+      outline: none;
+      padding: 0.55rem;
+      text-decoration: none;
+      transition: all 205ms ease-in-out, font-size 140ms;
+      border-bottom-left-radius: 15px 255px;
+      border-bottom-right-radius: 225px 15px;
+      border-top-left-radius: 255px 15px;
+      border-top-right-radius: 15px 225px;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
 
-      .equipmentButton,
-      .helperButton {
-        background: #bcb;
-        position: relative;
-        top: 7px;
-        transform: rotate(-2deg);
-        font-size: 2.2em;
-        border: solid 0px;
-        margin: 1px 11px 1px 0px;
-        transition: all 300ms;
-      }
-      .equipmentButton:hover,
-      .helperButton:hover {
-        transform: rotate(-6deg);
-      }
-      .helperButton {
-        background: #cbc;
-        transform: rotate(-2deg);
-      }
-      .equipment,
-      .helper {
-        display: inline-block;
-        margin: 7px 3px;
-        font-size: 2.6em;
-        transition: all 300ms;
-        vertical-align: bottom;
-        border-radius: 30px;
-        cursor: pointer;
-        -webkit-user-select: none;
-      }
+    .upgradeButton:hover {
+      background-color: lightyellow;
+    }
 
-      .equipment:hover,
-      .helper:hover {
-        transform: scale(1.2);
-      }
+    .upgradeButton:active {
+      transform: scale3d(1.04, 1.1, 1.3);
+      background-color: yellow;
+    }
 
-      #Click:active {
-        transform: translateY(1px) scale3d(1.1, 0.95, 1);
-      }
+    .equipmentButton,
+    .helperButton {
+      background: #bcb;
+      position: relative;
+      top: 7px;
+      transform: rotate(-2deg);
+      font-size: 2.2em;
+      border: solid 0px;
+      margin: 1px 11px 1px 0px;
+      transition: all 300ms;
+    }
 
-      .mbutton:focus {
-        outline: 0 !important;
-      }
+    .equipmentButton:hover,
+    .helperButton:hover {
+      transform: rotate(-6deg);
+    }
 
-      .mbutton:active {
-      }
+    .helperButton {
+      background: #cbc;
+      transform: rotate(-2deg);
+    }
 
-      #Click {
-        transition: all 70ms;
-        border: none;
-        background: none;
-        font-size: 50px;
-        margin: 5px 0px 0px;
-        cursor: pointer;
-      }
+    .equipment,
+    .helper {
+      display: inline-block;
+      margin: 7px 3px;
+      font-size: 2.6em;
+      transition: all 300ms;
+      vertical-align: bottom;
+      border-radius: 30px;
+      cursor: pointer;
+      -webkit-user-select: none;
+    }
 
-      hr {
-        margin: 10px 0px;
+    .equipment:hover,
+    .helper:hover {
+      transform: scale(1.2);
+    }
 
-        opacity: 0;
-      }
+    #Click:active {
+      transform: translateY(1px) scale3d(1.1, 0.95, 1);
+    }
 
-      .upgradeItem {
-        margin: 15px 0px 15px 9px;
-        vertical-align: middle;
-      }
-      .bonusItem {
-        margin: 10px 10px 20px;
-        vertical-align: middle;
-      }
+    .mbutton:focus {
+      outline: 0 !important;
+    }
 
-      .disable {
-        color: grey;
-      }
+    .mbutton:active {}
 
-      .upgradeButton {
-        margin-right: 11px;
-      }
-      #Upper {
-        position: fixed;
-        padding: 1.6em 1.6em 0em;
-        left: 0;
-        top: 0;
-        right: 0;
-        background: white;
-        box-shadow: 0px 2px 10px lightgray;
-        /* border-bottom: solid 1px; */
-        z-index: 999;
-      }
-      #Panel {
-        position: absolute;
-        box-shadow: black 0px 0px 0px;
-        top: 12em;
-        text-align: left;
-        padding: 0.8vw;
-        width: 100%;
-      }
-      ::-webkit-scrollbar {
-      }
-      ::-webkit-scrollbar-thumb {
-        height: 10px !important;
-      }
-      #Top {
-        position: fixed;
-        right: 15px;
-        top: 15px;
-        font-size: 0.9em;
-      }
-      #Restart {
-        display: inline;
-        font-size: unset;
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: grey;
-        margin-right: 10px;
-      }
-      #Full {
-        display: inline;
-        font-size: unset;
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: grey;
-      }
-    </style>
-  </body>
+    #Click {
+      transition: all 70ms;
+      border: none;
+      background: none;
+      font-size: 50px;
+      margin: 5px 0px 0px;
+      cursor: pointer;
+    }
+
+    hr {
+      margin: 10px 0px;
+
+      opacity: 0;
+    }
+
+    .upgradeItem {
+      margin: 15px 0px 15px 9px;
+      vertical-align: middle;
+    }
+
+    .bonusItem {
+      margin: 10px 10px 20px;
+      vertical-align: middle;
+    }
+
+    .disable {
+      color: grey;
+    }
+
+    .upgradeButton {
+      margin-right: 11px;
+    }
+
+    #Upper {
+      position: fixed;
+      padding: 1.6em 1.6em 0em;
+      left: 0;
+      top: 0;
+      right: 0;
+      background: white;
+      box-shadow: 0px 2px 10px lightgray;
+      /* border-bottom: solid 1px; */
+      z-index: 999;
+    }
+
+    #Panel {
+      position: absolute;
+      box-shadow: black 0px 0px 0px;
+      top: 12em;
+      text-align: left;
+      padding: 0.8vw;
+      width: 100%;
+    }
+
+    ::-webkit-scrollbar {}
+
+    ::-webkit-scrollbar-thumb {
+      height: 10px !important;
+    }
+
+    #Top {
+      position: fixed;
+      right: 15px;
+      top: 15px;
+      font-size: 0.9em;
+    }
+
+    #Restart {
+      display: inline;
+      font-size: unset;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: grey;
+      margin-right: 10px;
+    }
+
+    #Era {
+      display: inline;
+      font-size: unset;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: grey;
+      margin-right: 10px;
+    }
+
+    #Full {
+      display: inline;
+      font-size: unset;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: grey;
+    }
+  </style>
+</body>
+
 </html>
