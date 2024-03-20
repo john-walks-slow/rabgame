@@ -9,8 +9,8 @@
   <title>😻🐭</title>
 
   <!-- Vue.js -->
-  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-  <!-- <script src="https://unpkg.com/vue-i18n@8"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> -->
+  <script src="/res/vue@2.6.12.js"></script>
 </head>
 
 <body>
@@ -29,7 +29,7 @@
         {{"🐭"}}
       </button>
       <div id="Top">
-        <button v-if="count>target || :dev" id="Restart" class="" role="button" @click="restart">
+        <button v-if="count>target || dev" id="Restart" class="" role="button" @click="restart">
           {{"周目" + (era+1)}}
         </button>
         <span v-else-if="era>1" id="Era">
