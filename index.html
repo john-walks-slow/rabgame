@@ -16,13 +16,18 @@
 <body>
   <div id="vue-app">
     <div id="Upper">
-      <div v-if="count>target">
+      <div v-if="count>=target">
         <p>你有{{count.format()}}只鼠！</p>
-        <p>哇！你成功了😻</p>
+        <p>哇！你成功了
+          <picture v-for="e in era">
+            <img key="e" style="position:relative;top:6px;" src="/res/cat.gif" alt="😸" width="32" height="32">
+          </picture>
+        </p>
       </div>
       <div v-else>
         <p>你有{{count.format()}}只鼠</p>
         <p>目标是{{target}}只鼠</p>
+
         <progress :value="count" :max="target"></progress>
       </div>
       <button id="Click" class="" role="button" @click="click">
@@ -35,7 +40,7 @@
         <span v-else-if="era>1" id="Era">
           全局倍率: {{era}}
         </span>
-        <button v-if="count>=20000000000 || dev" id="Restart" class="" role="button" @click="cheat">
+        <button v-if="count>=target*20 || dev" id="Restart" class="" role="button" @click="cheat">
           {{"作弊"}}
         </button>
         <button id="Full" class="" role="button" @click="fullScreen">
@@ -101,6 +106,7 @@
       margin: 0;
       font-family: sans-serif, emoji !important;
       box-sizing: border-box;
+      -webkit-user-select: none;
       user-select: none;
     }
 

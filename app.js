@@ -61,7 +61,7 @@ var study = new Vue({
     addition: 1,
     bonus: 1,
     auto: 0,
-    era: 10,
+    era: 1,
     showUpgrade: false,
     showEquipment: false,
     showHelper: false,
@@ -186,6 +186,7 @@ var study = new Vue({
       // }
       this.count += ((this.addition * this.bonus) / 4) * this.auto
     }, 250)
+    this.count = this.target
   },
   watch: {
     count: {
