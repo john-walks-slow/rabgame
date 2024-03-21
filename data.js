@@ -11,7 +11,7 @@ const UPGRADES = [
   {
     "id": 2,
     "icon": "🤲🏻",
-    "name": "猫猫拳",
+    "name": "猫拳",
     "base": 2,
     "price": 100,
     "growth": 1.2,
