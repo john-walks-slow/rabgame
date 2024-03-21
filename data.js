@@ -77,10 +77,10 @@ const EQUIPMENTS = [
   { "id": 1, "icon": "🪣", "name": "鼠桶", "price": 500, "base": 0.1 },
   { "id": 2, "icon": "🗑", "name": "鼠笼", "price": 1500, "base": 0.1 },
   { "id": 3, "icon": "🕳", "name": "陷阱", "price": 2750, "base": 0.1 },
-  { "id": 4, "icon": "🥕", "name": "诱饵", "price": 4400, "base": 0.1 },
+  { "id": 4, "icon": "🍪", "name": "诱饵", "price": 4400, "base": 0.1 },
   { "id": 5, "icon": "🪤", "name": "高级陷阱", "price": 7480, "base": 0.12 },
-  { "id": 6, "icon": "🍟", "name": "高级诱饵", "price": 12716, "base": 0.13 },
-  { "id": 7, "icon": "🥤", "name": "特级诱饵", "price": 21618, "base": 0.15 },
+  { "id": 6, "icon": "🍗", "name": "高级诱饵", "price": 12716, "base": 0.13 },
+  { "id": 7, "icon": "🍦", "name": "特级诱饵", "price": 21618, "base": 0.15 },
   { "id": 10, "icon": "🚜", "name": "拖鼠机", "price": 36751, "base": 0.16 },
   { "id": 11, "icon": "🛳", "name": "捕鼠轮", "price": 66152, "base": 0.17 },
   { "id": 12, "icon": "🔭", "name": "望鼠镜", "price": 119074, "base": 0.18 },
@@ -113,9 +113,9 @@ const EQUIPMENTS = [
 ]
 
 const HELPERS = [
-  { "id": 1, "icon": "🐌", "name": "妞妞", "price": 1000, "base": 0.2 },
-  { "id": 2, "icon": "🐇", "name": "阿兔", "price": 5000, "base": 0.3 },
-  { "id": 3, "icon": "🐣", "name": "吉吉", "price": 10000, "base": 0.4 },
+  { "id": 1, "icon": "🐟", "name": "小鱼", "price": 1000, "base": 0.2 },
+  { "id": 2, "icon": "🐌", "name": "妞妞", "price": 5000, "base": 0.3 },
+  { "id": 3, "icon": "🐣", "name": "晃晃", "price": 10000, "base": 0.4 },
   { "id": 4, "icon": "🐬", "name": "海豚豚", "price": 25000, "base": 0.4 },
   { "id": 5, "icon": "🐒", "name": "猴", "price": 50000, "base": 0.5 },
   { "id": 6, "icon": "🦒", "name": "长脖子", "price": 110318, "base": 0.6 },
