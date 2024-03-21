@@ -53,7 +53,7 @@
           抓鼠能力：{{addition>50?addition.format(0,true):addition.format(1,true)}}
         </p>
 
-        <div v-if="count>u.price/1.85||u.mark||u.level>0" :class="{disable:count<u.price}" class="upgradeItem" v-for="u in upgrades">
+        <div v-if="count>=u.price*unlockThreshold||u.mark||u.level>0" :class="{disable:count<u.price}" class="upgradeItem" v-for="u in upgrades">
           {{(function(){u.mark=true;return ""})()}}
           <button class="upgradeButton mbutton" :disabled="count<u.price" @click="buyUpgrade(u)">
             {{u.icon}}</button>lv. {{u.level}} {{u.name}} （{{u.price.format(0,true)}}🐭
@@ -64,7 +64,7 @@
         <h3>装备</h3>
         <p v-if="showEquipment">抓鼠倍率：{{bonus.format(2)}}</p>
         <span class="equipment" v-for="u in equipments" v-if="u.bought">{{u.icon}}</span>
-        <div v-if="(count>u.price/1.85||u.mark)&&u.bought==undefined" :class="{disable:count<u.price}" class="bonusItem" v-for="u in equipments">
+        <div v-if="(count>=u.price*unlockThreshold||u.mark)&&u.bought==undefined" :class="{disable:count<u.price}" class="bonusItem" v-for="u in equipments">
           {{(function(){u.mark=true;return ""})()}}
 
           <button class="equipmentButton mbutton" :disabled="count<u.price" @click="buyEquipment(u)">
@@ -78,7 +78,7 @@
         <h3>助手</h3>
         <p v-if="showHelper">产鼠频率：{{auto.format(1)}}/s</p>
         <span class="helper" v-for="u in helpers" v-if="u.bought">{{u.icon}}</span>
-        <div v-if="(count>u.price/1.85||u.mark)&&u.bought==undefined" :class="{disable:count<u.price}" class="bonusItem" v-for="u in helpers">
+        <div v-if="(count>=u.price*unlockThreshold||u.mark)&&u.bought==undefined" :class="{disable:count<u.price}" class="bonusItem" v-for="u in helpers">
           {{(function(){u.mark=true;return ""})()}}
 
           <button class="helperButton mbutton" :disabled="count<u.price" @click="buyHelper(u)">
@@ -106,7 +106,7 @@
 
     @font-face {
       font-family: emoji;
-      src: url("/res/NotoColorEmoji-Regular.ttf");
+      src: url("/res/Noto-COLRv1-noflags.ttf");
     }
 
     @font-face {

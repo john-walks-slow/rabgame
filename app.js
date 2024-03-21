@@ -44,12 +44,12 @@ function Sound(
     this.sound.currentTime = 0
   }
 }
-var audioBgm = new Sound("bgm-run.mp3", 0.15, false, true, true)
-var audioClick = new Sound("bubble.mp3", 0.8, true)
-var audioM = new Sound("meow.mp3", 0.2)
-var audioSweet = new Sound("meow2.mp3", 0.2)
-var audioUnlock = new Sound("unlock.wav", 0.3)
-var audioCheer = new Sound("cheer.wav", 0.3)
+var audioBgm = new Sound("/res/audio/bgm-run.ogg", 0.15, false, true, true)
+var audioClick = new Sound("/res/audio/bubble.ogg", 0.8, true)
+var audioM = new Sound("/res/audio/meow.ogg", 0.2)
+var audioSweet = new Sound("/res/audio/meow2.ogg", 0.2)
+var audioUnlock = new Sound("/res/audio/unlock.ogg", 0.3)
+var audioCheer = new Sound("/res/audio/cheer.ogg", 0.3)
 var bgmStart = false
 
 var study = new Vue({
@@ -57,18 +57,18 @@ var study = new Vue({
   el: "#vue-app",
   data: {
     dev: false,
-    target: 1000000000,
     count: 1,
     addition: 1,
     bonus: 1,
     auto: 0,
-    era: 1,
+    era: 10,
     showUpgrade: false,
     showEquipment: false,
     showHelper: false,
     upgrades: UPGRADES,
     equipments: EQUIPMENTS,
     helpers: HELPERS,
+    unlockThreshold: 0.5,
   },
   methods: {
     restart: function () {
@@ -77,8 +77,6 @@ var study = new Vue({
         "save",
         JSON.stringify({
           era: this.era + 1,
-          target: 1000000000 * 10 ** (Math.ceil(this.era / 2) - 1),
-          addition: this.era + 1,
         })
       )
       window.location.reload()
@@ -150,27 +148,38 @@ var study = new Vue({
       // upgrade.price=(upgrade.price*1.1 ).round()
       helper.bought = true
     },
+    unlockUpgrades: function () {
+      if (this.count >= UPGRADES[0].price * this.unlockThreshold) {
+        this.showUpgrade = true
+      }
+      if (this.count >= EQUIPMENTS[0].price * this.unlockThreshold) {
+        this.showEquipment = true
+      }
+      if (this.count >= HELPERS[0].price * this.unlockThreshold) {
+        this.showHelper = true
+      }
+    },
   },
   computed: {
     countD: function () {
       return Math.round(this.count)
+    },
+    eraBonus: function () {
+      return 2 ** (this.era - 1)
+    },
+    target: function () {
+      return 100000000 * 10 ** this.era
     },
   },
   mounted: function () {
     let save = localStorage.getItem("save")
     if (save) {
       Object.assign(this.$data, JSON.parse(save))
-      if (this.count >= 10) {
-        this.showUpgrade = true
-      }
-      if (this.count >= 250) {
-        this.showEquipment = true
-      }
-      if (this.count >= 500) {
-        this.showHelper = true
-      }
+      this.unlockUpgrades()
     }
-
+    if (this.addition === 1) {
+      this.addition = this.eraBonus
+    }
     setInterval(() => {
       // if (this.count > this.target) {
       // this.target *= 100;
@@ -181,15 +190,7 @@ var study = new Vue({
   watch: {
     count: {
       handler(v, o) {
-        if (v >= 10) {
-          this.showUpgrade = true
-        }
-        if (v >= 250) {
-          this.showEquipment = true
-        }
-        if (v >= 500) {
-          this.showHelper = true
-        }
+        this.unlockUpgrades()
         let save = {
           target: this.target,
           count: this.count,

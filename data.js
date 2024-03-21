@@ -66,9 +66,9 @@ const UPGRADES = [
     "id": 8,
     "icon": "👼",
     "name": "猫神",
-    "base": 200000000,
-    "price": 15000000000,
-    "growth": 1.7,
+    "base": 10000000,
+    "price": 1500000000,
+    "growth": 1.8,
     "level": 0,
   },
 ]
