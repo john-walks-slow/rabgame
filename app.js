@@ -186,7 +186,6 @@ var study = new Vue({
       // }
       this.count += ((this.addition * this.bonus) / 4) * this.auto
     }, 250)
-    this.count = this.target
   },
   watch: {
     count: {
