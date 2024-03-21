@@ -165,10 +165,10 @@ var study = new Vue({
       return Math.round(this.count)
     },
     eraBonus: function () {
-      return 2 ** (this.era - 1)
+      return 1.5 ** (this.era - 1)
     },
     target: function () {
-      return 100000000 * 10 ** this.era
+      return 1000000000 * 4 ** (this.era - 1)
     },
   },
   mounted: function () {

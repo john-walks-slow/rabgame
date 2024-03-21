@@ -38,7 +38,7 @@
           {{"周目" + (era+1)}}
         </button>
         <span v-else-if="eraBonus>1" id="Era">
-          全局倍率: {{eraBonus}}
+          全局倍率: {{eraBonus.format(2)}}
         </span>
         <button v-if="count>=target*20 || dev" id="Restart" class="" role="button" @click="cheat">
           {{"作弊"}}
