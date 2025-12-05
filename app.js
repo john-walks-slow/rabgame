@@ -85,11 +85,11 @@ var study = new Vue({
       this.count *= 1.2
     },
     click: function () {
-      !bgmStart &&
-        setTimeout(() => {
-          audioBgm.play()
-          bgmStart = true
-        }, 50)
+      // !bgmStart &&
+      //   setTimeout(() => {
+      //     audioBgm.play()
+      //     bgmStart = true
+      //   }, 50)
 
       audioClick.play()
       this.count += this.addition * this.bonus
