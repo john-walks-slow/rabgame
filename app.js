@@ -44,12 +44,12 @@ function Sound(
     this.sound.currentTime = 0
   }
 }
-var audioBgm = new Sound("/res/audio/bgm-run.ogg", 0.15, false, true, true)
-var audioClick = new Sound("/res/audio/bubble.ogg", 0.8, true)
-var audioM = new Sound("/res/audio/meow.ogg", 0.2)
-var audioSweet = new Sound("/res/audio/meow2.ogg", 0.2)
-var audioUnlock = new Sound("/res/audio/unlock.ogg", 0.3)
-var audioCheer = new Sound("/res/audio/cheer.ogg", 0.3)
+var audioBgm = new Sound("res/audio/bgm-run.ogg", 0.15, false, true, true)
+var audioClick = new Sound("res/audio/bubble.ogg", 0.8, true)
+var audioM = new Sound("res/audio/meow.ogg", 0.2)
+var audioSweet = new Sound("res/audio/meow2.ogg", 0.2)
+var audioUnlock = new Sound("res/audio/unlock.ogg", 0.3)
+var audioCheer = new Sound("res/audio/cheer.ogg", 0.3)
 var bgmStart = false
 
 var study = new Vue({
