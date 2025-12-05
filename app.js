@@ -168,7 +168,7 @@ var study = new Vue({
       return 1.5 ** (this.era - 1)
     },
     target: function () {
-      return 1000000000 * 4 ** (this.era - 1)
+      return 1e12 * 10 ** (this.era - 1)
     },
   },
   mounted: function () {
